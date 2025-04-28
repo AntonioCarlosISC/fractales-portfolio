@@ -1,0 +1,84 @@
+Estructuras encontradas en el Mandelbox para su presentación
+como proyecto Demo para Curriculúm Vitae
+---------------------------------------------------------------------
+
+Ciudadela Dorada
+Color: Rojo Lava
+Iteraciones: 27
+Escala: 2.8
+Zoom: 0.98x
+Posición: [-1.39, -1.14, -0.21]
+Descripción: Vista de una estructura que evoca una arquitectura
+             futurista dorada como aquella leyenda del "Dorado" durante la
+	     conquista española, inspirando sensación de curiosidad
+	     profunda de un universo infinito contenido en una caja de fuego 
+	     y oro.
+
+----------------------------------------------------------------------
+
+Biblioteca Infinita de Borges
+Color: Neón Galáctico
+Iteraciones: 27
+Escala: 2.7
+Zoom: 2.64x
+Posición: [1.22, 1.30, -1.10]
+Descripción: Multiples cubos iterados en secuencia que evocan el pasaje
+             de la novela de Jorge Luis Borges "La biblioteca de Babel"
+	     donde se describe la existencia de una biblioteca inmensa
+	     que se extiende a lo largo de un edificio contenido, pero
+	     a su vez evocando la sensación del infinito. Genera la 
+	     sensación de observar arquitectura conocida y extraña a su vez.
+
+------------------------------------------------------------------------
+
+Paisaje Tecnosurrealista
+Color: Océano Profundo, Alienigena, Fuego Lava
+Iteraciones: 27
+Escala: 2.4
+Zoom: 2.35x
+Posición: [-2.71, 0.80, -0.03]
+Descripción: Paisaje que se extiende sobre una geometría no euclidiana hacia
+             un horizonte donde el espacio parece curvarse sobre una esfera,
+	     y donde a la vez pareciera estar contenido dentro de una estructura
+	     mayor, en los distintos modos de color evocan sensaciones
+	     distintas, por ejemplo: Océano Produndo evoca una sensación de un
+	     espacio estructurado por un material tecnologico casi biologico, en Fuego Lava
+	     lo que sería una proto esfera de Dyson (por el nucleo rojo del fondo parecido
+	     a una estrella) y por la estructura que le rodea, y en Alienígena nos da
+	     la impresión de un paisaje generado por una civilización super avanzada
+	     que ha dominado la arquitectura de estructuras autogenerativas (opino que
+	     da mucho para historias de ciencia ficción ilustradas). 
+	     Nota: Colocar el canva en posición alineada al centro de la estructura y
+	     y activar la rotación automatica de un esfecto de recorrido lateral al campo.
+
+-------------------------------------------------------------------------
+
+Diosa Fractal Perdida
+Color: Fuego Lava
+Iteraciones: 27
+Escala: 2.4
+Zoom: 6.52x
+Posición: [-5.85, -2.62, -0.36]
+Descripción: Figura totéminca emergida de un cruze en la visión entre las aristas del
+	     canva y los bordes simetricos del mandelbox, el fuego lava al arrojar mayor
+	     luz sobre espacios profundos emerge de esta forma una figura dorada que
+	     recuerda a una especie de venus en este universo fractal. Tambien evoca
+	     sutilmente a la representación de Horus en la mitolofía egipcia.
+
+---------------------------------------------------------------------------------------
+
+Trono Hipercúbico del Infinito
+Color: Océano Profundo, Rojo Lava
+Iteraciones: 27
+Escala: 3.0
+Zoom: 1.54x
+Posición: [0.03, 0.08, 1.53]
+Descripción: Esta figura presente a escalas menores aquí toma el protagonismo absoluto
+	     en forma de una infinita red de cubos cotenidos, el cubo central de cada 
+	     fugura al ser rotado muestra un efecto de tipo distorsión espacio tiempo.
+	     Algo que notar es que aparentemente casi todo en esta escala parece ser 
+	     a grandez rasgor perfectamente simetrico, pero al hacer zoom se encuentran
+	     fuguras vistas en escalas menores, autorecursión en estado puro.
+
+--------------------------------------------------------------------------------------
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandelbox 3D Ultra</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/mandelbox.css">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="controls">
+        <div class="control-group">
+            <button id="reset">Reiniciar Vista</button>
+            <button id="toggleAuto">Rotación Automática</button>
+        </div>
+        <div class="control-group">
+            <label for="iterations">Iteraciones: <span id="iterValue">18</span></label>
+            <input type="range" id="iterations" min="5" max="30" value="18">
+        </div>
+        <div class="control-group">
+            <label for="scale">Escala: <span id="scaleValue">2.0</span></label>
+            <input type="range" id="scale" min="1.5" max="3.0" step="0.1" value="2.0">
+        </div>
+        <div class="control-group">
+            <label for="colorMode">Modo de Color:</label>
+            <select id="colorMode">
+                <option value="0">Neón Galáctico</option>
+                <option value="1">Fuego Lava</option>
+                <option value="2">Océano Profundo</option>
+                <option value="3">Alienígena</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="figureSelect">Figuras Destacables</label>
+            <select id=figureSelect>
+                <option selected>Seleccione</option>             
+                <option value="ciudadela">Ciudadela Dorada</option>
+                <option value="biblioteca">Biblioteca Infinita de Borges</option>
+                <option value="paisaje">Paisaje Tecnosurrealista</option>
+                <option value="trono">Trono Hipercúbico del Infinito</option>
+            </select>
+        </div>
+    </div>
+    <div id="info">
+        <div>🖱️ Arrastra para rotar | Rueda para zoom</div>
+        <div>⇧ Shift + arrastra para mover | Doble click para centrar</div>
+    </div>
+    <div id="status">Cargando...</div>
+
+    <script src="assets/js/mandelbox.js"></script>
+</body>
+</html>
