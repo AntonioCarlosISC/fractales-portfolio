@@ -579,5 +579,13 @@
 
 
 
-        // Iniciar la aplicación
-        window.onload = init;
+  window.onload = function () {
+        init();
+
+        // Esperar un pequeño tiempo para asegurar que los listeners están listos
+        setTimeout(() => {
+            const selector = document.getElementById('figureSelect');
+            selector.value = 'ciudadela';
+            selector.dispatchEvent(new Event('change'));
+        }, 100);
+    };

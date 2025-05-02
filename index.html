@@ -5,45 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fractales 3D – Portafolio</title>
   <style>
+    /* Reset mínimo */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #111;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
       color: #eee;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       padding: 2rem;
+      line-height: 1.5;
     }
+
     h1 {
-      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #0ff;
+      text-shadow: 0 0 10px rgba(0,255,255,0.5);
     }
+
+    p {
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+
     .links {
       display: grid;
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 800px;
       margin-top: 2rem;
     }
-    .links a {
-      display: block;
-      padding: 0.75rem 1.5rem;
-      background: #222;
-      color: #0ff;
+
+    .card {
+      background: #1e1e1e;
+      border: 2px solid #222;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
       text-decoration: none;
-      border-radius: 4px;
-      text-align: center;
-      transition: background 0.2s;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
     }
-    .links a:hover {
-      background: #0ff;
-      color: #111;
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #0ff;
+      background: #282828;
+    }
+
+    .card h2 {
+      margin-bottom: 0.75rem;
+      font-size: 1.4rem;
+      color: #0ff;
+    }
+
+    .card p {
+      text-align: center;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 1rem;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .card {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <h1>Exploraciones Fractales</h1>
-  <p>Elige una demo:</p>
+  <p>Selecciona una demo para sumergirte en mundos infinitos:</p>
+
   <div class="links">
-    <a href="mandelbox.html">Mandelbox 3D Ultra</a>
-    <a href="mandelbrot.html">Fractal de Mandelbrot</a>
+    <a href="mandelbox.html" class="card">
+      <h2>Mandelbox 3D Ultra</h2>
+      <p>Explora fractales en tres dimensiones con rotación automática y figuras destacadas.</p>
+    </a>
+    <a href="mandelbrot.html" class="card">
+      <h2>Fractal de Mandelbrot</h2>
+      <p>Admira la profundidad y los colores psicodélicos del clásico conjunto de Mandelbrot 2D.</p>
+    </a>
   </div>
+
+  <footer>
+    &copy; 2025 Antonio Carlos Rodriguez Díaz
+  </footer>
 </body>
 </html>

@@ -1,45 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mandelbrot Psicodélico</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/mandelbrot.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandelbrot 2D Psicodélico</title>
+  <link rel="stylesheet" href="assets/css/mandelbrot.css" />
 </head>
 <body>
-<canvas id="mandelbrotCanvas"></canvas>
-<div id="controls">
-    <div class="control-group">
-        <label for="colorMode">Modo de Color:</label>
-        <select id="colorMode">
-            <option value="0" selected>Océano Galáctico</option>            
-            <option value="1">Fuego Cósmico</option>            
-            <option value="2">Psicodélico Extremo</option>
-            <option value="3">Neón Alienígena</option>
-            <option value="4">Verde Naturaleza</option>
-        </select>
-    </div>
-    <div class="control-group">
-        <label for="zoomSpeed">Velocidad de Zoom: <span id="zoomSpeedValue">10</span></label>
-        <input type="range" id="zoomSpeed" min="1" max="30" value="10" step="1">
-    </div>
-    <div class="control-group">
-        <label for="pathX">Dirección X: <span id="pathXValue">-20</span></label>
-        <input type="range" id="pathX" min="-100" max="100" value="-20" step="1">
-    </div>
-    <div class="control-group">
-        <label for="pathY">Dirección Y: <span id="pathYValue">10</span></label>
-        <input type="range" id="pathY" min="-100" max="100" value="10" step="1">
-    </div>
-    <div class="control-group">
-        <button id="toggleZoom">Iniciar Zoom</button>
-        <button id="resetView">Reiniciar Vista</button>
-    </div>
-    <div class="control-group">
-        <div id="zoomLevel">Zoom: 1x</div>
-    </div>
-</div>
+  <!-- Canvas -->
+  <canvas id="mandelbrotCanvas"></canvas>
 
-<script src="assets/js/mandelbrot.js"></script>
+  <!-- Indicador de Zoom -->
+  <div id="zoomLevel">Zoom: 1.00x</div>
+
+  <!-- Botón de menú (visible solo en móvil) -->
+  <button id="menuToggle" aria-label="Menú">☰</button>
+
+  <!-- Controles -->
+  <aside id="controls">
+    <div class="control-group">
+      <button id="resetView">Reiniciar Vista</button>
+      <button id="toggleZoom">Iniciar Zoom</button>
+    </div>
+    <div class="control-group">
+      <label for="colorMode">Modo de Color:</label>
+      <select id="colorMode">
+        <option value="0">Océano Galáctico</option>
+        <option value="1">Fuego Cósmico</option>
+        <option value="2">Psicodélico Extremo</option>
+        <option value="3">Neón Alienígena</option>
+        <option value="4">Verde Naturaleza</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label for="zoomSpeed">
+        Velocidad de Zoom: <span id="zoomSpeedValue">10</span>
+      </label>
+      <input type="range" id="zoomSpeed" min="1" max="30" value="10" />
+    </div>
+    <div class="control-group">
+      <label for="pathX">
+        Dirección X: <span id="pathXValue">-20</span>
+      </label>
+      <input type="range" id="pathX" min="-100" max="100" value="-20" />
+    </div>
+    <div class="control-group">
+      <label for="pathY">
+        Dirección Y: <span id="pathYValue">10</span>
+      </label>
+      <input type="range" id="pathY" min="-100" max="100" value="10" />
+    </div>
+  </aside>
+
+  <!-- Mensaje de ayuda -->
+  <div id="info">
+    🖱️ Arrastra para mover | ⇧ Shift para cambiar vista | Rueda para zoom
+  </div>
+
+  <!-- Estado de carga -->
+  <div id="status">Cargando...</div>
+
+  <!-- Scripts al final del body -->
+  <script src="assets/js/mandelbrot.js"></script>
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const controls = document.getElementById('controls');
+
+    toggle.addEventListener('click', () => {
+      controls.classList.toggle('open');
+    });
+  </script>
 </body>
 </html>
