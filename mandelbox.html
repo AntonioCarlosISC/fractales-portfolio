@@ -1,61 +1,506 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mandelbox 3D Ultra</title>
-  <link rel="stylesheet" href="assets/css/mandelbox.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mandelbox 3D — Psicodélico & Terror Fractal</title>
+<style>
+:root{
+  --ui-bg:rgba(10,10,12,0.85);
+  --ui-accent:#7be8ff;
+  --glass:rgba(255,255,255,0.06);
+  --horror:#8b0000;
+  --psyche:#ff00ff;
+  --success:#00ff88;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:#000;
+  font-family:'Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial;
+  overflow:hidden;
+}
+
+canvas{
+  display:block;
+  width:100vw;
+  height:100vh;
+  cursor:grab;
+}
+
+canvas:active{
+  cursor:grabbing;
+}
+
+/* ===== UI PANEL ===== */
+#ui{
+  position:fixed;
+  right:18px;
+  top:18px;
+  backdrop-filter:blur(10px);
+  background:var(--ui-bg);
+  color:#e6eef6;
+  padding:16px;
+  border-radius:16px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.8);
+  min-width:280px;
+  max-width:320px;
+  max-height:90vh;
+  overflow-y:auto;
+  transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+#ui::-webkit-scrollbar{
+  width:8px;
+}
+
+#ui::-webkit-scrollbar-track{
+  background:rgba(255,255,255,0.05);
+  border-radius:4px;
+}
+
+#ui::-webkit-scrollbar-thumb{
+  background:var(--ui-accent);
+  border-radius:4px;
+}
+
+#ui h3{
+  margin:0 0 16px 0;
+  font-size:18px;
+  font-weight:600;
+  border-bottom:2px solid var(--ui-accent);
+  padding-bottom:10px;
+  letter-spacing:0.5px;
+}
+
+/* ===== SECTIONS ===== */
+.section{
+  margin-bottom:18px;
+  padding:14px;
+  background:rgba(255,255,255,0.03);
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.05);
+}
+
+.section-title{
+  font-size:13px;
+  font-weight:600;
+  color:var(--ui-accent);
+  margin-bottom:10px;
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.section-title::before{
+  content:'';
+  width:3px;
+  height:14px;
+  background:var(--ui-accent);
+  border-radius:2px;
+}
+
+/* ===== CONTROLS ===== */
+.row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+label{
+  font-size:12px;
+  color:#cfe8ff;
+  flex:1;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+label span{
+  font-weight:600;
+  color:#fff;
+  background:rgba(255,255,255,0.1);
+  padding:2px 8px;
+  border-radius:4px;
+  min-width:35px;
+  text-align:center;
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:var(--ui-accent);
+  height:6px;
+  border-radius:3px;
+  background:rgba(255,255,255,0.1);
+}
+
+input[type=range]::-webkit-slider-thumb{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+select,button{
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,0.15);
+  color:inherit;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  font-size:13px;
+  font-weight:500;
+}
+
+select:hover,button:hover{
+  background:rgba(255,255,255,0.12);
+  border-color:var(--ui-accent);
+  transform:translateY(-1px);
+}
+
+select:active,button:active{
+  transform:translateY(0);
+}
+
+button.active{
+  background:var(--ui-accent);
+  color:#000;
+  font-weight:600;
+  border-color:var(--ui-accent);
+}
+
+select{
+  width:100%;
+}
+
+optgroup{
+  background:#1a1a1f;
+  font-weight:600;
+  font-size:12px;
+  padding:4px;
+}
+
+option{
+  padding:8px;
+  background:#0a0a0c;
+}
+
+/* ===== PRESET GRID ===== */
+.preset-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+
+.preset-btn{
+  padding:10px 8px;
+  font-size:11px;
+  text-align:center;
+  font-weight:600;
+  transition:all 0.2s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.preset-btn::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition:left 0.5s;
+}
+
+.preset-btn:hover::before{
+  left:100%;
+}
+
+.preset-btn.psychedelic{
+  border-color:var(--psyche) !important;
+  color:var(--psyche);
+}
+
+.preset-btn.psychedelic:hover{
+  background:rgba(255,0,255,0.2);
+  box-shadow:0 0 15px rgba(255,0,255,0.3);
+}
+
+.preset-btn.horror{
+  border-color:var(--horror) !important;
+  color:#ff6666;
+}
+
+.preset-btn.horror:hover{
+  background:rgba(139,0,0,0.2);
+  box-shadow:0 0 15px rgba(139,0,0,0.3);
+}
+
+.preset-btn.active{
+  background:var(--success);
+  color:#000;
+  border-color:var(--success);
+  transform:scale(0.95);
+}
+
+/* ===== STATUS BAR ===== */
+#status{
+  position:fixed;
+  left:18px;
+  bottom:18px;
+  background:rgba(0,0,0,0.8);
+  color:#fff;
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:13px;
+  font-family:'Courier New',monospace;
+  border:1px solid rgba(255,255,255,0.2);
+  backdrop-filter:blur(5px);
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+}
+
+.fps{
+  color:#0f0;
+  font-weight:bold;
+  text-shadow:0 0 5px #0f0;
+}
+
+/* ===== MENU TOGGLE ===== */
+#menuToggle{
+  position:fixed;
+  left:18px;
+  top:18px;
+  background:var(--glass);
+  backdrop-filter:blur(5px);
+  border-radius:12px;
+  padding:12px 16px;
+  border:1px solid rgba(255,255,255,0.2);
+  color:var(--ui-accent);
+  cursor:pointer;
+  font-size:22px;
+  transition:all 0.2s ease;
+  z-index:1000;
+}
+
+#menuToggle:hover{
+  background:rgba(255,255,255,0.15);
+  transform:scale(1.1) rotate(90deg);
+  box-shadow:0 0 20px rgba(123,232,255,0.5);
+}
+
+/* ===== FOOTER ===== */
+footer{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:12px;
+  color:rgba(255,255,255,0.5);
+  font-size:11px;
+  text-align:center;
+  background:rgba(0,0,0,0.5);
+  padding:8px 16px;
+  border-radius:8px;
+  backdrop-filter:blur(5px);
+}
+
+.small{
+  font-size:11px;
+  opacity:0.85;
+  line-height:1.5;
+}
+
+/* ===== HELP TEXT ===== */
+.help-text{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.6);
+}
+
+.help-text strong{
+  color:var(--ui-accent);
+  font-size:12px;
+}
+
+.help-text kbd{
+  background:rgba(255,255,255,0.1);
+  padding:2px 6px;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:11px;
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.7;transform:scale(0.98)}
+}
+
+.pulsing{
+  animation:pulse 2s infinite;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+#ui{
+  animation:fadeIn 0.5s ease;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px){
+  #ui{
+    right:10px;
+    top:10px;
+    min-width:260px;
+    max-width:calc(100vw - 20px);
+    padding:12px;
+  }
+  
+  #menuToggle{
+    left:10px;
+    top:10px;
+    padding:10px 14px;
+  }
+  
+  #status{
+    left:10px;
+    bottom:10px;
+    font-size:11px;
+    padding:8px 12px;
+  }
+  
+  footer{
+    font-size:10px;
+    padding:6px 12px;
+  }
+  
+  .preset-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
+<canvas id="canvas"></canvas>
 
-  <button id="menuToggle" aria-label="Menú">☰</button>
+<button id="menuToggle" aria-label="Menú">☰</button>
 
-  <aside id="controls" class="hidden">
-    <div class="control-group">
-      <button id="reset">Reiniciar Vista</button>
-      <button id="toggleAuto">Rotación Automática</button>
+<div id="ui">
+  <h3>🌀 Mandelbox Psicodélico & Terror</h3>
+
+  <!-- PARÁMETROS -->
+  <div class="section">
+    <div class="section-title">Parámetros</div>
+    <div class="row">
+      <label>Iteraciones <span id="iterLabel">18</span></label>
     </div>
-    <div class="control-group">
-      <label for="iterations">Iteraciones: <span id="iterValue">18</span></label>
-      <input type="range" id="iterations" min="5" max="30" value="18" />
+    <input id="iterations" type="range" min="6" max="60" value="18" />
+    
+    <div class="row" style="margin-top:12px">
+      <label>Escala <span id="scaleLabel">2.0</span></label>
     </div>
-    <div class="control-group">
-      <label for="scale">Escala: <span id="scaleValue">2.0</span></label>
-      <input type="range" id="scale" min="1.5" max="3.0" step="0.1" value="2.0" />
+    <input id="scale" type="range" min="1.2" max="3.8" step="0.1" value="2.0" />
+    
+    <div class="row" style="margin-top:12px">
+      <label>Calidad <span id="qualityLabel">Alta</span></label>
     </div>
-    <div class="control-group">
-      <label for="colorMode">Modo de Color:</label>
-      <select id="colorMode">
+    <select id="quality">
+      <option value="high">🔥 Alta (200 pasos)</option>
+      <option value="medium">⚡ Media (140 pasos)</option>
+      <option value="low">💨 Baja (90 pasos)</option>
+    </select>
+  </div>
+
+  <!-- MODO VISUAL -->
+  <div class="section">
+    <div class="section-title">Modo Visual</div>
+    <select id="colorMode">
+      <optgroup label="✨ Clásicos">
         <option value="0">Neón Galáctico</option>
         <option value="1">Fuego Lava</option>
         <option value="2">Océano Profundo</option>
         <option value="3">Alienígena</option>
-      </select>
+      </optgroup>
+      <optgroup label="🌈 Psicodélicos">
+        <option value="4">Arcoíris Infinito</option>
+        <option value="5">Vórtice Hipnótico</option>
+        <option value="6">Plasma Cósmico</option>
+        <option value="7">Ácido Cuántico</option>
+      </optgroup>
+      <optgroup label="💀 Terror Fractal">
+        <option value="8">Sangre Coagulada</option>
+        <option value="9">Vacío Abismal</option>
+        <option value="10">Descomposición</option>
+        <option value="11">Espectro Fantasmal</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <!-- PRESETS -->
+  <div class="section">
+    <div class="section-title">Escenas Predefinidas</div>
+    
+    <div style="margin-bottom:10px;font-size:11px;color:rgba(255,255,255,0.6)">Clásicas:</div>
+    <div class="preset-grid">
+      <button class="preset-btn" data-preset="ciudadela">🏛️ Ciudadela</button>
+      <button class="preset-btn" data-preset="biblioteca">📚 Biblioteca</button>
+      <button class="preset-btn" data-preset="paisaje">🌄 Paisaje</button>
+      <button class="preset-btn" data-preset="trono">👑 Trono</button>
     </div>
-    <div class="control-group">
-      <label for="figureSelect">Figuras Destacables</label>
-      <select id="figureSelect">
-        <option selected>Seleccione</option>
-        <option value="ciudadela">Ciudadela Dorada</option>
-        <option value="biblioteca">Biblioteca Infinita de Borges</option>
-        <option value="paisaje">Paisaje Tecnosurrealista</option>
-        <option value="trono">Trono Hipercúbico del Infinito</option>
-      </select>
+
+    <div style="margin:12px 0 10px 0;font-size:11px;color:#ff00ff">🌀 Psicodélicas:</div>
+    <div class="preset-grid">
+      <button class="preset-btn psychedelic" data-preset="psychedelic1">🎆 Dimensión</button>
+      <button class="preset-btn psychedelic" data-preset="psychedelic2">🌌 Nexus</button>
+      <button class="preset-btn psychedelic" data-preset="psychedelic3">✨ Portal</button>
+      <button class="preset-btn psychedelic" data-preset="psychedelic4">🔮 Cristal</button>
     </div>
-  </aside>
 
-  <div id="info">
-    🖱️ Arrastra para rotar | ⇧ Shift para mover | Rueda para zoom | Doble click para centrar
-  </div>  
+    <div style="margin:12px 0 10px 0;font-size:11px;color:#ff6666">💀 Terror:</div>
+    <div class="preset-grid">
+      <button class="preset-btn horror" data-preset="horror1">⚰️ Cripta</button>
+      <button class="preset-btn horror" data-preset="horror2">👻 Limbo</button>
+      <button class="preset-btn horror" data-preset="horror3">🩸 Altar</button>
+      <button class="preset-btn horror" data-preset="horror4">🕷️ Abismo</button>
+    </div>
+  </div>
 
-  <script>
-    document.getElementById('menuToggle').addEventListener('click', () => {
-      document.getElementById('controls').classList.toggle('hidden');
-    });
-  </script>
+  <!-- CONTROL -->
+  <div class="section">
+    <div class="section-title">Control</div>
+    <div class="row">
+      <button id="reset" style="flex:1">🔄 Reiniciar</button>
+      <button id="autoRotate" style="flex:1">🔄 Rotar</button>
+    </div>
+  </div>
 
-  <script src="assets/js/mandelbox.js"></script>
-  <div id="status">Cargando...</div>
+  <!-- AYUDA -->
+  <div class="help-text small">
+    <strong>⌨️ Atajos:</strong><br>
+    <kbd>U</kbd> UI • <kbd>C</kbd> Color • <kbd>+/-</kbd> Iter<br>
+    <kbd>Q</kbd> Calidad • <kbd>S</kbd> Escala • <kbd>R</kbd> Rotar<br>
+    <kbd>H</kbd> Ayuda completa
+  </div>
+</div>
+
+<div id="status">Inicializando...</div>
+
+<footer id="footer" class="small">
+  🖱️ Arrastra: rotar • Shift+Arrastra: pan • Rueda: zoom • Doble clic: centrar
+</footer>
+
+<script src="assets/js/mandelbox.js"></script>
 </body>
 </html>
