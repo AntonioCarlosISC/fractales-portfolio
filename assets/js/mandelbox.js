@@ -44,7 +44,6 @@ class MandelboxRenderer {
 
     this._initGL();
     this._setupGeometry();
-    this._bindUniforms();
     this.resize();
     window.addEventListener('resize', ()=>this.resize());
   }
@@ -445,7 +444,7 @@ class MandelboxRenderer {
   _link(vs, fs){
     const gl = this.gl;
     const p = gl.createProgram();
-    gl.attachShader(p, vs); 
+    gl.attachShader(p, vs);
     gl.attachShader(p, fs);
     gl.bindAttribLocation(p, 0, 'aPos');
     gl.linkProgram(p);
@@ -453,6 +452,8 @@ class MandelboxRenderer {
       console.error(gl.getProgramInfoLog(p));
       throw new Error('Program link error');
     }
+    gl.deleteShader(vs);
+    gl.deleteShader(fs);
     return p;
   }
 
@@ -461,21 +462,21 @@ class MandelboxRenderer {
     const verts = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
     const inds = new Uint16Array([0,1,2,2,1,3]);
 
-    this.vbo = gl.createBuffer(); 
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo); 
-    gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
-    
-    this.ebo = gl.createBuffer(); 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ebo); 
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, inds, gl.STATIC_DRAW);
-  }
+    this.vao = gl.createVertexArray();
+    gl.bindVertexArray(this.vao);
 
-  _bindUniforms(){
-    const gl = this.gl;
-    gl.useProgram(this.program);
+    this.vbo = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
+    gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+
+    this.ebo = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ebo);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, inds, gl.STATIC_DRAW);
+
     gl.enableVertexAttribArray(this.aPosLoc);
     gl.vertexAttribPointer(this.aPosLoc, 2, gl.FLOAT, false, 0, 0);
+
+    gl.bindVertexArray(null);
   }
 
   resize(){
@@ -485,6 +486,7 @@ class MandelboxRenderer {
     this.canvas.style.width = window.innerWidth + 'px';
     this.canvas.style.height = window.innerHeight + 'px';
     this.gl.viewport(0,0,this.canvas.width,this.canvas.height);
+    this._projMatrix = this._perspective(60, this.canvas.width / this.canvas.height, 0.1, 1000.0);
   }
 
   setQuality(q){
@@ -577,9 +579,8 @@ class MandelboxRenderer {
 
     gl.useProgram(this.program);
 
-    const proj = this._perspective(60, this.canvas.width/this.canvas.height, 0.1, 1000.0);
     const view = this._lookAt(this.cameraPos, this.target, this.up);
-    const pv = this._mulMat4(proj, view);
+    const pv = this._mulMat4(this._projMatrix, view);
     const invPV = this._invertMat4(pv);
     
     gl.uniformMatrix4fv(this.uInvProjView, false, invPV);
@@ -592,8 +593,9 @@ class MandelboxRenderer {
     gl.uniform1i(this.uMaxSteps, this.maxSteps);
     gl.uniform1f(this.uEps, this.epsFactor);
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ebo);
+    gl.bindVertexArray(this.vao);
     gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+    gl.bindVertexArray(null);
 
     // FPS calculation
     this.frameCount++;
@@ -895,10 +897,19 @@ class MandelboxRenderer {
   }
   raf = requestAnimationFrame(loop);
 
+  // Help overlay
+  document.getElementById('helpClose').addEventListener('click', () => {
+    document.getElementById('helpOverlay').classList.remove('visible');
+  });
+  document.getElementById('helpOverlay').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget)
+      e.currentTarget.classList.remove('visible');
+  });
+
   // Initial preset
-  setTimeout(()=>{ 
-    renderer.setPreset('ciudadela'); 
-    colorMode.value = renderer.colorMode; 
+  setTimeout(()=>{
+    renderer.setPreset('ciudadela');
+    colorMode.value = renderer.colorMode;
   }, 150);
 
   // Menu toggle
@@ -971,22 +982,7 @@ class MandelboxRenderer {
 
     // Ayuda con H
     if (e.key.toLowerCase() === 'h') {
-      alert(`🎮 ATAJOS DE TECLADO:
-      
-U - Toggle UI
-C - Cambiar paleta de color
-+/- - Aumentar/Reducir iteraciones
-Q - Cambiar calidad
-S - Aumentar escala
-Shift+S - Reducir escala
-R - Activar/Desactivar rotación automática
-H - Esta ayuda
-
-🖱️ CONTROLES:
-Arrastrar - Rotar cámara
-Shift+Arrastrar - Mover cámara (pan)
-Rueda - Zoom
-Doble clic - Centrar vista`);
+      document.getElementById('helpOverlay').classList.toggle('visible');
     }
   });
 

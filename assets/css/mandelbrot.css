@@ -111,6 +111,29 @@ button:hover {
   }
 }
 
+#info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 5;
+}
+
+#status {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 101;
+}
+
 /* Ocultar ayuda en pantallas pequeñas */
 @media (max-width: 768px) {
   #info {

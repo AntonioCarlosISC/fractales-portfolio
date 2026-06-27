@@ -14,13 +14,13 @@
   <div id="zoomLevel">Zoom: 1.00x</div>
 
   <!-- Botón de menú (visible solo en móvil) -->
-  <button id="menuToggle" aria-label="Menú">☰</button>
+  <button type="button" id="menuToggle" aria-label="Menú">☰</button>
 
   <!-- Controles -->
   <aside id="controls">
     <div class="control-group">
-      <button id="resetView">Reiniciar Vista</button>
-      <button id="toggleZoom">Iniciar Zoom</button>
+      <button type="button" id="resetView">Reiniciar Vista</button>
+      <button type="button" id="toggleZoom">Iniciar Zoom</button>
     </div>
     <div class="control-group">
       <label for="colorMode">Modo de Color:</label>
@@ -62,13 +62,5 @@
 
   <!-- Scripts al final del body -->
   <script src="assets/js/mandelbrot.js"></script>
-  <script>
-    const toggle = document.getElementById('menuToggle');
-    const controls = document.getElementById('controls');
-
-    toggle.addEventListener('click', () => {
-      controls.classList.toggle('open');
-    });
-  </script>
 </body>
 </html>

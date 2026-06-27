@@ -3,14 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Mandelbox 3D — Psicodélico & Terror Fractal</title>
+<title>Mandelbulb 3D — Fractal Esférico</title>
 <style>
 :root{
   --ui-bg:rgba(10,10,12,0.85);
-  --ui-accent:#7be8ff;
+  --ui-accent:#ffb347;
   --glass:rgba(255,255,255,0.06);
-  --horror:#8b0000;
-  --psyche:#ff00ff;
   --success:#00ff88;
 }
 
@@ -28,10 +26,7 @@ canvas{
   height:100vh;
   cursor:grab;
 }
-
-canvas:active{
-  cursor:grabbing;
-}
+canvas:active{ cursor:grabbing; }
 
 /* ===== UI PANEL ===== */
 #ui{
@@ -48,26 +43,17 @@ canvas:active{
   max-width:320px;
   max-height:90vh;
   overflow-y:auto;
-  transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
   border:1px solid rgba(255,255,255,0.1);
+  animation:fadeIn 0.5s ease;
 }
 
-#ui::-webkit-scrollbar{
-  width:8px;
-}
-
-#ui::-webkit-scrollbar-track{
-  background:rgba(255,255,255,0.05);
-  border-radius:4px;
-}
-
-#ui::-webkit-scrollbar-thumb{
-  background:var(--ui-accent);
-  border-radius:4px;
-}
+#ui::-webkit-scrollbar{ width:8px; }
+#ui::-webkit-scrollbar-track{ background:rgba(255,255,255,0.05); border-radius:4px; }
+#ui::-webkit-scrollbar-thumb{ background:var(--ui-accent); border-radius:4px; }
 
 #ui h3{
-  margin:0 0 16px 0;
+  margin:0 0 16px;
   font-size:18px;
   font-weight:600;
   border-bottom:2px solid var(--ui-accent);
@@ -139,13 +125,6 @@ input[type=range]{
   background:rgba(255,255,255,0.1);
 }
 
-input[type=range]::-webkit-slider-thumb{
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  cursor:pointer;
-}
-
 select,button{
   background:var(--glass);
   border:1px solid rgba(255,255,255,0.15);
@@ -164,10 +143,6 @@ select:hover,button:hover{
   transform:translateY(-1px);
 }
 
-select:active,button:active{
-  transform:translateY(0);
-}
-
 button.active{
   background:var(--ui-accent);
   color:#000;
@@ -175,28 +150,14 @@ button.active{
   border-color:var(--ui-accent);
 }
 
-select{
-  width:100%;
-}
-
-optgroup{
-  background:#1a1a1f;
-  font-weight:600;
-  font-size:12px;
-  padding:4px;
-}
-
-option{
-  padding:8px;
-  background:#0a0a0c;
-}
+select{ width:100%; }
 
 /* ===== PRESET GRID ===== */
 .preset-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:8px;
-  margin-top:10px;
+  margin-top:8px;
 }
 
 .preset-btn{
@@ -204,7 +165,6 @@ option{
   font-size:11px;
   text-align:center;
   font-weight:600;
-  transition:all 0.2s ease;
   position:relative;
   overflow:hidden;
 }
@@ -216,33 +176,11 @@ option{
   left:-100%;
   width:100%;
   height:100%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);
   transition:left 0.5s;
 }
 
-.preset-btn:hover::before{
-  left:100%;
-}
-
-.preset-btn.psychedelic{
-  border-color:var(--psyche) !important;
-  color:var(--psyche);
-}
-
-.preset-btn.psychedelic:hover{
-  background:rgba(255,0,255,0.2);
-  box-shadow:0 0 15px rgba(255,0,255,0.3);
-}
-
-.preset-btn.horror{
-  border-color:var(--horror) !important;
-  color:#ff6666;
-}
-
-.preset-btn.horror:hover{
-  background:rgba(139,0,0,0.2);
-  box-shadow:0 0 15px rgba(139,0,0,0.3);
-}
+.preset-btn:hover::before{ left:100%; }
 
 .preset-btn.active{
   background:var(--success);
@@ -251,7 +189,7 @@ option{
   transform:scale(0.95);
 }
 
-/* ===== STATUS BAR ===== */
+/* ===== STATUS ===== */
 #status{
   position:fixed;
   left:18px;
@@ -268,9 +206,9 @@ option{
 }
 
 .fps{
-  color:#0f0;
+  color:var(--ui-accent);
   font-weight:bold;
-  text-shadow:0 0 5px #0f0;
+  text-shadow:0 0 5px rgba(255,179,71,0.6);
 }
 
 /* ===== MENU TOGGLE ===== */
@@ -293,7 +231,7 @@ option{
 #menuToggle:hover{
   background:rgba(255,255,255,0.15);
   transform:scale(1.1) rotate(90deg);
-  box-shadow:0 0 20px rgba(123,232,255,0.5);
+  box-shadow:0 0 20px rgba(255,179,71,0.4);
 }
 
 /* ===== FOOTER ===== */
@@ -311,13 +249,8 @@ footer{
   backdrop-filter:blur(5px);
 }
 
-.small{
-  font-size:11px;
-  opacity:0.85;
-  line-height:1.5;
-}
+.small{ font-size:11px; opacity:0.85; line-height:1.5; }
 
-/* ===== HELP TEXT ===== */
 .help-text{
   margin-top:12px;
   padding-top:12px;
@@ -325,10 +258,7 @@ footer{
   color:rgba(255,255,255,0.6);
 }
 
-.help-text strong{
-  color:var(--ui-accent);
-  font-size:12px;
-}
+.help-text strong{ color:var(--ui-accent); font-size:12px; }
 
 .help-text kbd{
   background:rgba(255,255,255,0.1);
@@ -351,9 +281,7 @@ footer{
   backdrop-filter:blur(6px);
 }
 
-#helpOverlay.visible{
-  display:flex;
-}
+#helpOverlay.visible{ display:flex; }
 
 .help-modal{
   background:var(--ui-bg);
@@ -375,9 +303,7 @@ footer{
   padding-bottom:10px;
 }
 
-.help-section{
-  margin-bottom:14px;
-}
+.help-section{ margin-bottom:14px; }
 
 .help-section strong{
   display:block;
@@ -388,21 +314,9 @@ footer{
   margin-bottom:8px;
 }
 
-.help-section table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-}
-
-.help-section td{
-  padding:4px 8px;
-}
-
-.help-section td:first-child{
-  white-space:nowrap;
-  opacity:0.85;
-  width:120px;
-}
+.help-section table{ width:100%; border-collapse:collapse; font-size:13px; }
+.help-section td{ padding:4px 8px; }
+.help-section td:first-child{ white-space:nowrap; opacity:0.85; width:130px; }
 
 #helpClose{
   position:absolute;
@@ -419,163 +333,91 @@ footer{
   min-width:unset;
 }
 
-#helpClose:hover{
-  background:rgba(255,255,255,0.2);
-  border-color:var(--ui-accent);
-}
+#helpClose:hover{ background:rgba(255,255,255,0.2); border-color:var(--ui-accent); }
 
 /* ===== ANIMATIONS ===== */
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.7;transform:scale(0.98)}
-}
-
-.pulsing{
-  animation:pulse 2s infinite;
-}
-
 @keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-#ui{
-  animation:fadeIn 0.5s ease;
+  from{ opacity:0; transform:translateY(10px); }
+  to{   opacity:1; transform:translateY(0); }
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 768px){
-  #ui{
-    right:10px;
-    top:10px;
-    min-width:260px;
-    max-width:calc(100vw - 20px);
-    padding:12px;
-  }
-  
-  #menuToggle{
-    left:10px;
-    top:10px;
-    padding:10px 14px;
-  }
-  
-  #status{
-    left:10px;
-    bottom:10px;
-    font-size:11px;
-    padding:8px 12px;
-  }
-  
-  footer{
-    font-size:10px;
-    padding:6px 12px;
-  }
-  
-  .preset-grid{
-    grid-template-columns:1fr;
-  }
+@media (max-width:768px){
+  #ui{ right:10px; top:10px; min-width:260px; max-width:calc(100vw - 20px); padding:12px; }
+  #menuToggle{ left:10px; top:10px; padding:10px 14px; }
+  #status{ left:10px; bottom:10px; font-size:11px; padding:8px 12px; }
+  footer{ font-size:10px; padding:6px 12px; }
+  .preset-grid{ grid-template-columns:1fr; }
 }
 </style>
 </head>
 <body>
+
 <canvas id="canvas"></canvas>
 
-<button id="menuToggle" aria-label="Menú">☰</button>
+<button type="button" id="menuToggle" aria-label="Menú">☰</button>
 
 <div id="ui">
-  <h3>🌀 Mandelbox Psicodélico & Terror</h3>
+  <h3>🌐 Mandelbulb 3D</h3>
 
-  <!-- PARÁMETROS -->
   <div class="section">
     <div class="section-title">Parámetros</div>
     <div class="row">
-      <label>Iteraciones <span id="iterLabel">18</span></label>
+      <label>Potencia <span id="powerLabel">8.0</span></label>
     </div>
-    <input id="iterations" type="range" min="6" max="60" value="18" />
-    
+    <input id="power" type="range" min="2" max="12" step="0.5" value="8" />
+
     <div class="row" style="margin-top:12px">
-      <label>Escala <span id="scaleLabel">2.0</span></label>
+      <label>Iteraciones <span id="iterLabel">12</span></label>
     </div>
-    <input id="scale" type="range" min="1.2" max="3.8" step="0.1" value="2.0" />
-    
+    <input id="iterations" type="range" min="4" max="30" value="12" />
+
     <div class="row" style="margin-top:12px">
       <label>Calidad <span id="qualityLabel">Alta</span></label>
     </div>
     <select id="quality">
-      <option value="high">🔥 Alta (200 pasos)</option>
-      <option value="medium">⚡ Media (140 pasos)</option>
-      <option value="low">💨 Baja (90 pasos)</option>
+      <option value="high">🔥 Alta (150 pasos)</option>
+      <option value="medium">⚡ Media (100 pasos)</option>
+      <option value="low">💨 Baja (60 pasos)</option>
     </select>
   </div>
 
-  <!-- MODO VISUAL -->
   <div class="section">
     <div class="section-title">Modo Visual</div>
     <select id="colorMode">
-      <optgroup label="✨ Clásicos">
-        <option value="0">Neón Galáctico</option>
-        <option value="1">Fuego Lava</option>
-        <option value="2">Océano Profundo</option>
-        <option value="3">Alienígena</option>
-      </optgroup>
-      <optgroup label="🌈 Psicodélicos">
-        <option value="4">Arcoíris Infinito</option>
-        <option value="5">Vórtice Hipnótico</option>
-        <option value="6">Plasma Cósmico</option>
-        <option value="7">Ácido Cuántico</option>
-      </optgroup>
-      <optgroup label="💀 Terror Fractal">
-        <option value="8">Sangre Coagulada</option>
-        <option value="9">Vacío Abismal</option>
-        <option value="10">Descomposición</option>
-        <option value="11">Espectro Fantasmal</option>
-      </optgroup>
+      <option value="0">🌌 Cósmico</option>
+      <option value="1">🌋 Lava Ardiente</option>
+      <option value="2">💚 Esmeralda</option>
+      <option value="3">👽 Alienígena</option>
+      <option value="4">🌈 Arcoíris</option>
+      <option value="5">👻 Espectral</option>
     </select>
   </div>
 
-  <!-- PRESETS -->
   <div class="section">
-    <div class="section-title">Escenas Predefinidas</div>
-    
-    <div style="margin-bottom:10px;font-size:11px;color:rgba(255,255,255,0.6)">Clásicas:</div>
+    <div class="section-title">Vistas</div>
     <div class="preset-grid">
-      <button class="preset-btn" data-preset="ciudadela">🏛️ Ciudadela</button>
-      <button class="preset-btn" data-preset="biblioteca">📚 Biblioteca</button>
-      <button class="preset-btn" data-preset="paisaje">🌄 Paisaje</button>
-      <button class="preset-btn" data-preset="trono">👑 Trono</button>
-    </div>
-
-    <div style="margin:12px 0 10px 0;font-size:11px;color:#ff00ff">🌀 Psicodélicas:</div>
-    <div class="preset-grid">
-      <button class="preset-btn psychedelic" data-preset="psychedelic1">🎆 Dimensión</button>
-      <button class="preset-btn psychedelic" data-preset="psychedelic2">🌌 Nexus</button>
-      <button class="preset-btn psychedelic" data-preset="psychedelic3">✨ Portal</button>
-      <button class="preset-btn psychedelic" data-preset="psychedelic4">🔮 Cristal</button>
-    </div>
-
-    <div style="margin:12px 0 10px 0;font-size:11px;color:#ff6666">💀 Terror:</div>
-    <div class="preset-grid">
-      <button class="preset-btn horror" data-preset="horror1">⚰️ Cripta</button>
-      <button class="preset-btn horror" data-preset="horror2">👻 Limbo</button>
-      <button class="preset-btn horror" data-preset="horror3">🩸 Altar</button>
-      <button class="preset-btn horror" data-preset="horror4">🕷️ Abismo</button>
+      <button type="button" class="preset-btn" data-preset="clasico">🌐 Clásico</button>
+      <button type="button" class="preset-btn" data-preset="ecuador">🌊 Ecuador</button>
+      <button type="button" class="preset-btn" data-preset="polo">❄️ Polo</button>
+      <button type="button" class="preset-btn" data-preset="triada">🌿 Tríada</button>
+      <button type="button" class="preset-btn" data-preset="armadura">⚔️ Armadura</button>
+      <button type="button" class="preset-btn" data-preset="cristal">💎 Cristal</button>
     </div>
   </div>
 
-  <!-- CONTROL -->
   <div class="section">
     <div class="section-title">Control</div>
     <div class="row">
-      <button id="reset" style="flex:1">🔄 Reiniciar</button>
-      <button id="autoRotate" style="flex:1">🔄 Rotar</button>
+      <button type="button" id="reset" style="flex:1">🔄 Reiniciar</button>
+      <button type="button" id="autoRotate" style="flex:1">▶ Rotar</button>
     </div>
   </div>
 
-  <!-- AYUDA -->
   <div class="help-text small">
     <strong>⌨️ Atajos:</strong><br>
-    <kbd>U</kbd> UI • <kbd>C</kbd> Color • <kbd>+/-</kbd> Iter<br>
-    <kbd>Q</kbd> Calidad • <kbd>S</kbd> Escala • <kbd>R</kbd> Rotar<br>
+    <kbd>U</kbd> UI &bull; <kbd>C</kbd> Color &bull; <kbd>+/-</kbd> Iter<br>
+    <kbd>Q</kbd> Calidad &bull; <kbd>P</kbd>/<kbd>Shift+P</kbd> Potencia &bull; <kbd>R</kbd> Rotar<br>
     <kbd>H</kbd> Ayuda completa
   </div>
 </div>
@@ -583,21 +425,21 @@ footer{
 <div id="status">Inicializando...</div>
 
 <footer id="footer" class="small">
-  🖱️ Arrastra: rotar • Shift+Arrastra: pan • Rueda: zoom • Doble clic: centrar
+  🖱️ Arrastra: rotar &bull; Shift+Arrastra: pan &bull; Rueda: zoom &bull; Doble clic: centrar
 </footer>
 
 <div id="helpOverlay">
   <div class="help-modal">
     <button type="button" id="helpClose">✕</button>
-    <h3>🎮 Controles</h3>
+    <h3>🎮 Controles — Mandelbulb 3D</h3>
     <div class="help-section">
       <strong>⌨️ Teclado</strong>
       <table>
         <tr><td><kbd>U</kbd></td><td>Mostrar/ocultar UI</td></tr>
-        <tr><td><kbd>C</kbd></td><td>Cambiar paleta</td></tr>
+        <tr><td><kbd>C</kbd></td><td>Cambiar paleta de color</td></tr>
         <tr><td><kbd>+</kbd> / <kbd>-</kbd></td><td>Aumentar/reducir iteraciones</td></tr>
         <tr><td><kbd>Q</kbd></td><td>Cambiar calidad</td></tr>
-        <tr><td><kbd>S</kbd> / <kbd>Shift+S</kbd></td><td>Subir/bajar escala</td></tr>
+        <tr><td><kbd>P</kbd> / <kbd>Shift+P</kbd></td><td>Subir/bajar potencia</td></tr>
         <tr><td><kbd>R</kbd></td><td>Rotación automática</td></tr>
         <tr><td><kbd>H</kbd></td><td>Esta ayuda</td></tr>
       </table>
@@ -608,12 +450,20 @@ footer{
         <tr><td>Arrastrar</td><td>Rotar cámara</td></tr>
         <tr><td>Shift + Arrastrar</td><td>Mover cámara (pan)</td></tr>
         <tr><td>Rueda</td><td>Zoom</td></tr>
-        <tr><td>Doble clic</td><td>Centrar vista</td></tr>
+        <tr><td>Doble clic</td><td>Centrar en origen</td></tr>
       </table>
+    </div>
+    <div class="help-section">
+      <strong>💡 Sobre el Mandelbulb</strong>
+      <p style="font-size:12px;opacity:0.75;line-height:1.6;margin:4px 0 0">
+        Extensión esférica 3D del conjunto de Mandelbrot.<br>
+        La <em>Potencia</em> (n) define cuántas «ramas» emergen.<br>
+        Power 8 es el clásico; prueba 3, 5 o 10 para formas distintas.
+      </p>
     </div>
   </div>
 </div>
 
-<script src="assets/js/mandelbox.js"></script>
+<script src="assets/js/mandelbulb.js"></script>
 </body>
 </html>

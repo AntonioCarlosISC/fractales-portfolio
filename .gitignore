@@ -1,0 +1,12 @@
+# Binarios compilados
+mandelbrot
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/settings.json
+*.swp
+*.swo
